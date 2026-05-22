@@ -1,0 +1,104 @@
+{
+  "extensionName": {
+    "message": "Better Search Highlighter"
+  },
+  "extensionShortName": {
+    "message": "Highlighter"
+  },
+  "extensionDescription": {
+    "message": "Find exact text matches on the current page and make them easier to see with adjustable highlights."
+  },
+  "commandOpenSearch": {
+    "message": "Open Better Search Highlighter"
+  },
+  "panelSearchLabel": {
+    "message": "Search text"
+  },
+  "panelPreviousMatch": {
+    "message": "Previous match"
+  },
+  "panelNextMatch": {
+    "message": "Next match"
+  },
+  "panelJumpLabel": {
+    "message": "Jump to match number"
+  },
+  "panelCloseSearch": {
+    "message": "Close search"
+  },
+  "panelCloseButton": {
+    "message": "x"
+  },
+  "panelSettingsSummary": {
+    "message": "Settings"
+  },
+  "panelLanguageLabel": {
+    "message": "Language"
+  },
+  "panelLanguageAuto": {
+    "message": "Auto"
+  },
+  "panelLanguageEnglish": {
+    "message": "English"
+  },
+  "panelLanguageJapanese": {
+    "message": "Japanese"
+  },
+  "panelAllowBlinking": {
+    "message": "Allow blinking highlight"
+  },
+  "panelBlinkLabel": {
+    "message": "Blink"
+  },
+  "panelSearchScopeHelp": {
+    "message": "To avoid performance impact on dynamically generated or very large pages, Better Search Highlighter limits how much text it loads. Enable Search all content when you want to search the entire page."
+  },
+  "panelSearchAllContent": {
+    "message": "Search all content"
+  },
+  "panelSearchAllContentWarning": {
+    "message": "Warning: this searches the page without content-size limits and may affect performance on some pages."
+  },
+  "panelResetLevel": {
+    "message": "Reset level"
+  },
+  "panelResetPanel": {
+    "message": "Reset panel"
+  },
+  "panelOpenShortcuts": {
+    "message": "Shortcuts"
+  },
+  "panelResetSettings": {
+    "message": "Reset settings"
+  },
+  "statusTextSafetyLimit": {
+    "message": "Search stopped at the page text safety limit."
+  },
+  "statusNodeSafetyLimit": {
+    "message": "Search stopped at the DOM node safety limit."
+  },
+  "statusFrameSafetyLimit": {
+    "message": "Search skipped some frames for safety."
+  },
+  "statusMatchSafetyLimit": {
+    "message": "Too many matches. Results were limited for performance."
+  },
+  "statusSearchAllContentHint": {
+    "message": "Enable Search all content to search without this limit."
+  },
+  "shortcutUnassignedNotice": {
+    "message": "Shortcut is not assigned. Set it in Chrome shortcuts."
+  },
+  "statusLevelReset": {
+    "message": "Highlight level reset."
+  },
+  "statusPanelReset": {
+    "message": "Panel position reset."
+  },
+  "statusAllReset": {
+    "message": "All settings reset."
+  },
+  "statusOpenShortcutsManually": {
+    "message": "Open chrome://extensions/shortcuts manually."
+  }
+}

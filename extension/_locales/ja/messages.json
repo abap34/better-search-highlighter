@@ -1,0 +1,104 @@
+{
+  "extensionName": {
+    "message": "Better Search Highlighter"
+  },
+  "extensionShortName": {
+    "message": "Highlighter"
+  },
+  "extensionDescription": {
+    "message": "現在のページで完全一致検索を行い、見つけた箇所を段階的な強調表示で見やすくします。"
+  },
+  "commandOpenSearch": {
+    "message": "Better Search Highlighter を開く"
+  },
+  "panelSearchLabel": {
+    "message": "検索語"
+  },
+  "panelPreviousMatch": {
+    "message": "前の一致"
+  },
+  "panelNextMatch": {
+    "message": "次の一致"
+  },
+  "panelJumpLabel": {
+    "message": "一致番号へ移動"
+  },
+  "panelCloseSearch": {
+    "message": "検索を閉じる"
+  },
+  "panelCloseButton": {
+    "message": "×"
+  },
+  "panelSettingsSummary": {
+    "message": "設定"
+  },
+  "panelLanguageLabel": {
+    "message": "言語"
+  },
+  "panelLanguageAuto": {
+    "message": "自動"
+  },
+  "panelLanguageEnglish": {
+    "message": "英語"
+  },
+  "panelLanguageJapanese": {
+    "message": "日本語"
+  },
+  "panelAllowBlinking": {
+    "message": "点滅ハイライトを許可"
+  },
+  "panelBlinkLabel": {
+    "message": "点滅"
+  },
+  "panelSearchScopeHelp": {
+    "message": "動的に生成されたり非常に大規模なページでもパフォーマンスに影響を及ぼさないよう、読み込むテキストの量を制限しています。全てのコンテンツを検索したいときは「全てのコンテンツを検索」を有効にしてください。"
+  },
+  "panelSearchAllContent": {
+    "message": "全てのコンテンツを検索"
+  },
+  "panelSearchAllContentWarning": {
+    "message": "注意: 無制限にページ内を検索するため、一部のページではパフォーマンスに影響を及ぼす可能性があります。"
+  },
+  "panelResetLevel": {
+    "message": "強調レベルをリセット"
+  },
+  "panelResetPanel": {
+    "message": "パネル位置をリセット"
+  },
+  "panelOpenShortcuts": {
+    "message": "ショートカット"
+  },
+  "panelResetSettings": {
+    "message": "設定をリセット"
+  },
+  "statusTextSafetyLimit": {
+    "message": "ページ本文の安全上限に達したため検索を停止しました。"
+  },
+  "statusNodeSafetyLimit": {
+    "message": "DOM ノード数の安全上限に達したため検索を停止しました。"
+  },
+  "statusFrameSafetyLimit": {
+    "message": "安全のため一部の frame を検索対象から外しました。"
+  },
+  "statusMatchSafetyLimit": {
+    "message": "一致数が多すぎるため、結果を制限しました。"
+  },
+  "statusSearchAllContentHint": {
+    "message": "この制限なしで検索するには「全てのコンテンツを検索」を有効にしてください。"
+  },
+  "shortcutUnassignedNotice": {
+    "message": "ショートカットが未割り当てです。Chrome のショートカット設定で変更できます。"
+  },
+  "statusLevelReset": {
+    "message": "強調レベルをリセットしました。"
+  },
+  "statusPanelReset": {
+    "message": "パネル位置をリセットしました。"
+  },
+  "statusAllReset": {
+    "message": "すべての設定をリセットしました。"
+  },
+  "statusOpenShortcutsManually": {
+    "message": "chrome://extensions/shortcuts を手動で開いてください。"
+  }
+}

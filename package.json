@@ -1,0 +1,17 @@
+{
+  "name": "better-search-highlighter",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev:chrome": "node scripts/dev-chrome.js",
+    "generate:icons": "node scripts/generate-icons.js",
+    "check": "npm run check:js && npm run check:extension && npm test",
+    "check:js": "node scripts/check-js.js",
+    "check:extension": "node scripts/check-extension.js",
+    "test": "node --test",
+    "check:json": "node -e \"JSON.parse(require('fs').readFileSync('extension/manifest.json', 'utf8'))\""
+  },
+  "devDependencies": {}
+}
