@@ -2,6 +2,8 @@ import { createPanelCss } from "./style-manager.js";
 import { clampNumber } from "../shared/bounds.js";
 import { productName, t } from "../shared/i18n.js";
 
+const SEARCH_FIELD_KEYBOARD_EVENTS = ["keydown", "keypress", "keyup"];
+
 export class SearchPanel {
   constructor(callbacks) {
     this.callbacks = callbacks;
@@ -15,6 +17,7 @@ export class SearchPanel {
     this.host.style.display = "none";
     this.host.hidden = true;
     this.notice = "";
+    this.boundSearchFieldKeyboardGuard = (event) => this.handleSearchFieldKeyboardEvent(event);
 
     this.shadow = this.host.attachShadow({ mode: "open" });
     this.shadow.innerHTML = this.renderMarkup("");
@@ -98,17 +101,13 @@ export class SearchPanel {
       this.callbacks.onInput(this.refs.input.value);
     });
 
-    this.shadow.addEventListener("keydown", (event) => this.handleKeydown(event), true);
-    this.shadow.addEventListener("keyup", (event) => this.handleEscape(event), true);
-    this.refs.input.addEventListener("keydown", (event) => this.handleEscape(event), true);
-    this.refs.input.addEventListener("keyup", (event) => this.handleEscape(event), true);
-    this.refs.jump.addEventListener("keydown", (event) => this.handleEscape(event), true);
-    this.refs.jump.addEventListener("keyup", (event) => this.handleEscape(event), true);
+    for (const eventName of SEARCH_FIELD_KEYBOARD_EVENTS) {
+      this.shadow.addEventListener(eventName, this.boundSearchFieldKeyboardGuard, true);
+    }
 
     this.refs.prev.addEventListener("click", () => this.callbacks.onNavigate(-1));
     this.refs.next.addEventListener("click", () => this.callbacks.onNavigate(1));
     this.refs.close.addEventListener("click", () => this.callbacks.onClose());
-    this.refs.jump.addEventListener("keydown", (event) => this.handleJumpKeydown(event));
     this.refs.blink.addEventListener("change", () => {
       this.callbacks.onBlinkChange(this.refs.blink.checked);
     });
@@ -126,24 +125,42 @@ export class SearchPanel {
     this.refs.drag.addEventListener("pointerdown", (event) => this.startDrag(event));
   }
 
-  handleKeydown(event) {
-    if (this.handleEscape(event)) {
-      return;
+  handleSearchFieldKeyboardEvent(event) {
+    const field = this.getSearchFieldFromEvent(event);
+    if (!field) {
+      return false;
+    }
+
+    event.stopPropagation();
+    event.stopImmediatePropagation?.();
+
+    if (event.type === "keyup") {
+      if (isEscapeEvent(event)) {
+        this.closeFromKeyboardEvent(event);
+      }
+      return true;
+    }
+
+    if (event.type !== "keydown") {
+      return true;
+    }
+
+    if (isEscapeEvent(event)) {
+      this.closeFromKeyboardEvent(event);
+      return true;
     }
 
     if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey) {
-      return;
-    }
-
-    const target = event.target;
-    const isSearchField = target === this.refs.input || target === this.refs.jump;
-    if (!isSearchField) {
-      return;
+      return true;
     }
 
     if (event.key === "Enter") {
       event.preventDefault();
-      this.callbacks.onNavigate(event.shiftKey ? -1 : 1);
+      if (field === this.refs.jump) {
+        this.callbacks.onJump(Number.parseInt(this.refs.jump.value, 10));
+      } else {
+        this.callbacks.onNavigate(event.shiftKey ? -1 : 1);
+      }
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
       this.callbacks.onLevelStep(1);
@@ -151,28 +168,37 @@ export class SearchPanel {
       event.preventDefault();
       this.callbacks.onLevelStep(-1);
     }
+
+    return true;
   }
 
-  handleJumpKeydown(event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      this.callbacks.onJump(Number.parseInt(this.refs.jump.value, 10));
+  getSearchFieldFromEvent(event) {
+    const path = typeof event.composedPath === "function" ? event.composedPath() : [];
+    if (path.includes(this.refs.input)) {
+      return this.refs.input;
     }
+    if (path.includes(this.refs.jump)) {
+      return this.refs.jump;
+    }
+    if (event.target === this.refs.input || this.shadow.activeElement === this.refs.input) {
+      return this.refs.input;
+    }
+    if (event.target === this.refs.jump || this.shadow.activeElement === this.refs.jump) {
+      return this.refs.jump;
+    }
+
+    return null;
   }
 
-  handleEscape(event) {
-    if (!isEscapeEvent(event)) {
-      return false;
-    }
-
+  closeFromKeyboardEvent(event) {
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation?.();
     this.callbacks.onClose();
-    return true;
   }
 
   open(position) {
+    this.addGlobalSearchFieldKeyboardGuard();
     this.host.hidden = false;
     this.host.style.display = "block";
     if (position) {
@@ -185,8 +211,23 @@ export class SearchPanel {
   }
 
   close() {
+    this.removeGlobalSearchFieldKeyboardGuard();
     this.host.style.display = "none";
     this.host.hidden = true;
+  }
+
+  addGlobalSearchFieldKeyboardGuard() {
+    for (const eventName of SEARCH_FIELD_KEYBOARD_EVENTS) {
+      window.addEventListener(eventName, this.boundSearchFieldKeyboardGuard, true);
+      document.addEventListener(eventName, this.boundSearchFieldKeyboardGuard, true);
+    }
+  }
+
+  removeGlobalSearchFieldKeyboardGuard() {
+    for (const eventName of SEARCH_FIELD_KEYBOARD_EVENTS) {
+      window.removeEventListener(eventName, this.boundSearchFieldKeyboardGuard, true);
+      document.removeEventListener(eventName, this.boundSearchFieldKeyboardGuard, true);
+    }
   }
 
   resetPosition() {
