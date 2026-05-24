@@ -17,6 +17,12 @@ const SKIPPED_TAG_NAMES = new Set([
   "OPTION"
 ]);
 
+const VISUALLY_HIDDEN_CLASS_NAMES = new Set([
+  "sr-only",
+  "visually-hidden",
+  "screen-reader-text"
+]);
+
 export async function collectTextNodes(rootDocument = document, limits = {}) {
   const scanLimits = {
     maxTextNodes: limits.maxTextNodes ?? MAX_TEXT_NODES,
@@ -210,12 +216,38 @@ function shouldSkipElement(element) {
   if (
     element.isContentEditable ||
     element.hidden ||
-    element.getAttribute("aria-hidden") === "true"
+    element.getAttribute("aria-hidden") === "true" ||
+    isVisuallyHiddenElement(element)
   ) {
     return true;
   }
 
   return false;
+}
+
+function isVisuallyHiddenElement(element) {
+  for (const className of VISUALLY_HIDDEN_CLASS_NAMES) {
+    if (element.classList?.contains(className)) {
+      return true;
+    }
+  }
+
+  const view = element.ownerDocument.defaultView;
+  if (!view) {
+    return false;
+  }
+
+  const style = view.getComputedStyle(element);
+  const rect = element.getBoundingClientRect();
+  const clipsContent =
+    style.overflow === "hidden" ||
+    style.overflowX === "hidden" ||
+    style.overflowY === "hidden";
+  const tinyBox = rect.width <= 1 && rect.height <= 1;
+  const clipped = style.clip !== "auto" || style.clipPath !== "none";
+  const removedFromFlow = style.position === "absolute" || style.position === "fixed";
+
+  return tinyBox && clipsContent && (clipped || removedFromFlow);
 }
 
 function isVisible(element) {
